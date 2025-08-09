@@ -50,17 +50,21 @@ fun main(){
 
 
     //user input
-    println("Insert your age:")
-    val input = readln().toInt()
-    if (input == 40){
-        println(input)
-    }else{
-        println(false)
+//    println("Insert your age:")
+//    val input = readln().toInt()
+//    if (input == 40){
+//        println(input)
+//    }else{
+//        println(false)
+//    }
+//println("End")
+
+    var userInput = readln()
+    while (userInput == "1"){
+        println("While loop executed")
+        userInput = readln()
     }
-println("End")
-
-
-
+println("Loop is done")
 
 
 
