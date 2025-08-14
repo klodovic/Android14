@@ -67,7 +67,10 @@ fun TheCounterApp(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row{
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        )
+        {
             Button(onClick = {viewModel.increment()})
             {
                 Text("Increment")
@@ -76,7 +79,6 @@ fun TheCounterApp(
             {
                 Text("Decrement")
             }
-
         }
     }
 
