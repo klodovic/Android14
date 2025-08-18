@@ -2,6 +2,7 @@ package com.example.recipeapp
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -29,9 +30,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun RecipeScreen(modifier: Modifier = Modifier){
+fun RecipeScreen(
+    modifier: Modifier = Modifier,
+    viewState: MainViewModel.RecipeState,
+    navigateToDetail:(Category) -> Unit
+){
     val recipeViewModel: MainViewModel = viewModel()
-    val viewState by recipeViewModel.categoriesState
+
 
     Box(modifier = modifier.fillMaxSize())
     {
@@ -50,7 +55,7 @@ fun RecipeScreen(modifier: Modifier = Modifier){
             }
             else -> {
                 // Display categories
-                CategoryScreen(categories = viewState.list)
+                CategoryScreen(categories = viewState.list, navigateToDetail)
             }
         }
     }
@@ -60,7 +65,8 @@ fun RecipeScreen(modifier: Modifier = Modifier){
 
 @Composable
 fun CategoryScreen(
-    categories: List<Category>
+    categories: List<Category>,
+    navigateToDetail:(Category) -> Unit
 )
 {
     LazyVerticalGrid(
@@ -69,14 +75,14 @@ fun CategoryScreen(
         contentPadding = PaddingValues(8.dp))
     {
         items(categories){
-            category -> CategoryItem(category = category)
+            category -> CategoryItem(category = category, navigateToDetail)
         }
     }
 }
 
 //How each item looks like
 @Composable
-fun CategoryItem(category: Category) {
+fun CategoryItem(category: Category, navigateToDetail:(Category) -> Unit) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -84,6 +90,9 @@ fun CategoryItem(category: Category) {
             .height(300.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color(0xFFE0E0E0))
+            .clickable{
+                navigateToDetail(category)
+            }
     ) {
         // Background image
         Image(

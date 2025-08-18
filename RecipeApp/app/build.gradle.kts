@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -49,6 +50,8 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     //Image loading
     implementation(libs.coil.compose)
+    //Navigation between screens
+    implementation(libs.androidx.navigation.compose)
 
 
     implementation(libs.androidx.core.ktx)
