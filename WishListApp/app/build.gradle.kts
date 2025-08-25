@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp) //for KSP
 }
 
 android {
-    namespace = "com.example.shoppinglistapp"
+    namespace = "com.example.wishlistapp"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.shoppinglistapp"
+        applicationId = "com.example.wishlistapp"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -40,18 +41,16 @@ android {
 }
 
 dependencies {
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    //kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler.v261) //Faster than KAPT - modern approach
 
-    // Google Maps (no need if using OSMDroid)
-    // implementation(libs.maps.compose)
-    // implementation(libs.play.services.maps)
-
-    // OSMDroid for OpenStreetMap - open Source map (works as Google Maps)
-    implementation(libs.osmdroid.android)
-
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.retrofit2.x.x)
-    implementation(libs.converter.gson)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.ui)
+    implementation(libs.androidx.material)
+    implementation(libs.ui.tooling.preview)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
