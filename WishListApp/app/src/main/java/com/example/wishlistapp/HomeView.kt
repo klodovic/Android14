@@ -3,10 +3,13 @@ package com.example.wishlistapp
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -18,13 +21,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.wishlistapp.Data.Wish
+import androidx.navigation.NavController
+import com.example.wishlistapp.data.DummyWish
+import com.example.wishlistapp.data.Wish
 
 @Composable
-fun HomeView(modifier: Modifier){
+fun HomeView(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: WishViewModel
+){
     val context = LocalContext.current
     Scaffold(
         topBar = {AppBarView(title = "WishList")
@@ -46,37 +54,40 @@ fun HomeView(modifier: Modifier){
                         context,
                         "FAB button clicked",
                         Toast.LENGTH_LONG).show()
+                        navController.navigate(Screen.AddScreen.route)
                 })
             {
                 Icon(
-                    imageVector = Icons.Default.Add, contentDescription = null
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null
                 )
             }
-        }
-
-    ) {
-        LazyColumn(modifier = modifier.fillMaxSize().padding(it))
+        },
+        contentWindowInsets = WindowInsets.safeDrawing
+    )
+    {
+        padding ->
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding))
         {
-
+            items(DummyWish.wishList){
+                wish -> WishItem(wish = wish) { }
+            }
         }
     }
 }
 
 @Composable
-fun WishItem(modifier: Modifier, wish: Wish, onClick: () -> Unit){
-    Card(
-        modifier = modifier.fillMaxWidth().padding
-            (
-                top = 8.dp,
-                start = 8.dp,
-                end = 8.dp
-            ).clickable{ onClick() },
+fun WishItem(wish: Wish, onClick: () -> Unit){
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+        .clickable {
+            onClick()
+        },
         elevation = 10.dp,
         backgroundColor = Color.White
-    )
-    {
-        Column(modifier = modifier.padding(16.dp))
-        {
+    ) {
+        Column(modifier = Modifier.padding(16.dp)){
             Text(text = wish.title, fontWeight = FontWeight.ExtraBold)
             Text(text = wish.description)
         }

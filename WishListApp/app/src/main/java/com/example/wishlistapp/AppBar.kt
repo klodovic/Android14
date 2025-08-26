@@ -3,11 +3,12 @@ package com.example.wishlistapp
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -37,10 +38,7 @@ fun AppBarView(
         }
 
 
-
-
-    TopAppBar(
-        modifier = Modifier.statusBarsPadding(),
+    TopAppBar(modifier = Modifier.statusBarsPadding(),
         title = {
             Text(text = title,
                 color = colorResource(id = R.color.white),
