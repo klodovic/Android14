@@ -11,22 +11,24 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.wishlistapp.data.DummyWish
 import com.example.wishlistapp.data.Wish
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeView(
     modifier: Modifier,
@@ -54,7 +56,7 @@ fun HomeView(
                         context,
                         "FAB button clicked",
                         Toast.LENGTH_LONG).show()
-                        navController.navigate(Screen.AddScreen.route)
+                        navController.navigate(Screen.AddScreen.route + "/0L")
                 })
             {
                 Icon(
@@ -67,10 +69,15 @@ fun HomeView(
     )
     {
         padding ->
+        val wishlist = viewModel.gelAllWishes.collectAsState(initial = listOf())
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding))
         {
-            items(DummyWish.wishList){
-                wish -> WishItem(wish = wish) { }
+            items(wishlist.value){
+                wish ->
+                 WishItem(wish = wish) {
+                    val id = wish.id
+                    navController.navigate(Screen.AddScreen.route + "/$id")
+                }
             }
         }
     }

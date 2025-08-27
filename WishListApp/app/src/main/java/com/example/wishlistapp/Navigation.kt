@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import java.util.Map.entry
 
 @Composable
 fun Navigation(
@@ -28,12 +29,20 @@ fun Navigation(
             )
         }
 
-        composable(Screen.AddScreen.route){
+        composable(Screen.AddScreen.route + "/{id}",
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.LongType
+                    defaultValue = 0L
+                    nullable = false
+                }
+            )
+        ){entry->
+            val id = if(entry.arguments != null)  entry.arguments!!.getLong("id") else 0L
             AddEditDetailView(
                 modifier = modifier,
-                id = 0L,
-                viewModel = viewModel,
-                navController = navController,
+                id = id, viewModel = viewModel,
+                navController = navController
             )
         }
 
